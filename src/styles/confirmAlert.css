@@ -1,0 +1,55 @@
+@keyframes react-confirm-alert-fadeIn {
+  from {
+    scale: 1.2;
+    opacity: 0;
+  }
+
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+.react-confirm-alert-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  animation: react-confirm-alert-fadeIn ease 0.2s forwards;
+}
+
+.react-confirm-alert-body {
+  box-shadow: 0px 0px 20px #00000099;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.react-confirm-alert-button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.react-confirm-alert-button-group button {
+  margin: 0 10px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.react-confirm-alert-button-group button:hover {
+  opacity: 0.8;
+}
+
+.react-confirm-alert-button-group button:active {
+ opacity: 0.5;
+}
+
+.react-confirm-alert-button-group button:first-child {
+  background-color: #f21d2f;
+  color: #ffffff;
+  border: none;
+}
+
+.react-confirm-alert-button-group button:last-child {
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+}
