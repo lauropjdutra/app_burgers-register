@@ -29,7 +29,7 @@ const Home = () => {
   const typedName = useRef() // Ref for the typed value in the name input
   const [order, setOrder] = useState([]) // State variable for storing the registering order
   const [orders, setOrders] = useState([]) // State variable for storing all registered orders
-  const baseUrl = "http://localhost:3000" // URL to access the Node.js server
+  const baseUrl = "https://api-burgers-register.vercel.app" // URL to access the Node.js server
 
   // Effect hook to dynamically update the page title based on the current location
   useEffect(() => {

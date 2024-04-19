@@ -33,7 +33,7 @@ const Orders = () => {
   const videoRef = useRef(null) // Ref for the video playback rate
   const [order, setOrder] = useState([]) // State variable for storing the registering order
   const [orders, setOrders] = useState([]) // State variable for storing all registered orders
-  const baseUrl = "http://localhost:3000" // URL to access the Node.js server
+  const baseUrl = "https://api-burgers-register.vercel.app" // URL to access the Node.js server
 
   const [editingOrderId, setEditingOrderId] = useState(null) // State variable for tracking the editing order ID
   const [editedClientName, setEditedClientName] = useState("") // State variable for the edited client name
