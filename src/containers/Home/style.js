@@ -129,7 +129,7 @@ export const OrdersLink = styled.a`
   display: flex;
   gap: 3px;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 200;
   border-bottom: 0.7px solid #22222299;
   cursor: pointer;

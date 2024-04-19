@@ -12,6 +12,7 @@ import { toast } from "react-toastify"
 import Title from "../../components/Title" // Render the main title
 import Image from "../../components/LogoImage" // Render the logo image
 import Button from "../../components/Button" // Render the main button
+import Footer from "../../components/Footer" // Render the footer
 import ItemsContainer from "../../components/ItemsContainer" // Render the items container
 import BackgroundVideo from "../../components/BackgroundVideo" // Render the background video
 
@@ -287,6 +288,7 @@ const Home = () => {
             />{" "}
             Ver todos os pedidos
           </C.OrdersLink>
+          <Footer></Footer>
         </ItemsContainer>
       </C.MainContainer>
     </>
