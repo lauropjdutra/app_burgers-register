@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components"
 
-// Animation for the main container slides from bottom
+// Animation for the main container slides from top
 const slideAnimation = keyframes`
   from {
     top: -720px;

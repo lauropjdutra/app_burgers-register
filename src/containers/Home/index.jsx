@@ -27,9 +27,13 @@ const Home = () => {
   const location = useLocation() // Hook for getting the current location
   const videoRef = useRef(null) // Ref for the video playback rate
   const typedName = useRef() // Ref for the typed value in the name input
-  const [order, setOrder] = useState([]) // State variable for storing the registering order
   const [orders, setOrders] = useState([]) // State variable for storing all registered orders
   const baseUrl = "https://api-burgers-register.vercel.app" // URL to access the Node.js server
+
+  // State variables for storing the selected items in each category
+  const [burger, setBurger] = useState("")
+  const [followUp, setFollowUp] = useState("")
+  const [drink, setDrink] = useState("")
 
   // Effect hook to dynamically update the page title based on the current location
   useEffect(() => {
@@ -63,69 +67,99 @@ const Home = () => {
   // Function to select items from the menu
   const selectItem = (category, event) => {
     // Extract the name and value of the selected item
-    const itemName = event.target.name
     const selectedItem = event.target.value
 
-    // Find the price of the selected item in the API data
-    const price = Object.values(items[category][itemName]).find(
-      item => item.desc === selectedItem
-    ).price
-
-    // Update the order state with the selected item and its price
-    setOrder({ ...order, [category]: { item: selectedItem, price: price } })
+    // Update the corresponding state based on the category
+    switch (category) {
+      case 0:
+        setBurger(selectedItem.toLowerCase())
+        break
+      case 1:
+        setFollowUp(selectedItem.toLowerCase())
+        break
+      case 2:
+        setDrink(selectedItem.toLowerCase())
+        break
+      default:
+        break
+    }
   }
 
   // Function to register an order
   const createOrder = async () => {
     try {
-      // Capitalize the name typed by the user
+      // Capitalize the client name
       const name = capitalize(typedName.current.value)
 
       // Check if the name is not empty
-      if (name !== "") {
-        // Create a string fot the ordered items
-        const orderItems = `1 ${order[0].item}, 1 ${order[1].item}, 1 ${order[2].item}`
-
-        // Calculate the total price of the order
-        const totalPrice = order[0].price + order[1].price + order[2].price
-
-        // Send a POST request to register a new order
-        const { data } = await axios.post(`${baseUrl}/orders`, {
-          order: orderItems.toLowerCase(),
-          price: formatPrice(totalPrice),
-          clientName: name,
-        })
-
-        // Show a success message from Toastify
-        toast.success("Pedido realizado com sucesso!", { autoClose: 2000 })
-
-        // Update the orders state with the registered order
-        setOrders([...orders, data])
-
-        // Clear the typed name input
-        typedName.current.value = ""
-
-        // Clear the order state
-        setOrder([])
-
-        // Clear radio inputs
-        const radioInputs = document.querySelectorAll('input[type="radio"]')
-        radioInputs.forEach(input => {
-          input.checked = false
-          const selectedLabel = input.closest("label")
-          if (selectedLabel.classList.contains("red")) {
-            selectedLabel.classList.remove("red")
-          }
-        })
-
-        // Throw an error if the name is empty
-      } else {
-        throw new Error("Nome é obrigatório")
+      if (name === "") {
+        throw new Error("Nome é obrigatório.")
       }
+
+      // Check if an item is selected in each category
+      if (!burger || !followUp || !drink) {
+        let errorMessage = ""
+
+        if (!burger && !followUp && !drink) {
+          errorMessage = "um hambúrguer, um acompanhamento e uma bebida"
+        } else {
+          if (!burger) errorMessage += "um hambúrguer"
+          if (!followUp) {
+            if (errorMessage !== "") errorMessage += " e " // Add 'e' if previous item selected
+            errorMessage += "um acompanhamento"
+          }
+          if (!drink) {
+            if (errorMessage !== "") errorMessage += " e " // Add 'e' if previous item selected
+            errorMessage += "uma bebida"
+          }
+        }
+        
+        throw new Error(`Escolha ${errorMessage}.`)
+      }
+
+      // Create a string for the ordered items
+      const orderItems = `1 ${items[0].burger[burger].desc}, 1 ${items[1].followUp[followUp].desc}, 1 ${items[2].drink[drink].desc}`
+
+      // Calculate the total price of the order
+      const totalPrice =
+        items[0].burger[burger].price +
+        items[1].followUp[followUp].price +
+        items[2].drink[drink].price
+
+      // Send a POST request to register a new order
+      const { data } = await axios.post(`${baseUrl}/orders`, {
+        order: orderItems.toLowerCase(),
+        price: formatPrice(totalPrice),
+        clientName: name,
+      })
+
+      // Show a success message from Toastify
+      toast.success("Pedido realizado com sucesso!", { autoClose: 2000 })
+
+      // Update the orders state with the registered order
+      setOrders([...orders, data])
+
+      // Clear the typed name input
+      typedName.current.value = ""
+
+      // Clear the order states
+      setBurger("")
+      setFollowUp("")
+      setDrink("")
+
+      // Clear radio inputs
+      const radioInputs = document.querySelectorAll('input[type="radio"]')
+      radioInputs.forEach(input => {
+        input.checked = false
+        const selectedLabel = input.closest("label")
+        if (selectedLabel.classList.contains("red")) {
+          selectedLabel.classList.remove("red")
+        }
+      })
+
       // Catch the error and show a message from Toastify
     } catch (err) {
-      toast.error("Verifique os dados do pedido.", { autoClose: 2000 })
-      // console.log(err)
+      toast.error(err.message, { autoClose: 2000 })
     }
   }
 
@@ -179,7 +213,7 @@ const Home = () => {
                     type="radio"
                     name="burger"
                     id={i.name}
-                    value={i.desc}
+                    value={i.name}
                     onChange={changeColor}
                   />
                 </div>
@@ -201,7 +235,7 @@ const Home = () => {
                     type="radio"
                     name="followUp"
                     id={i.name}
-                    value={i.desc}
+                    value={i.name}
                     onChange={changeColor}
                   />
                 </div>
@@ -223,7 +257,7 @@ const Home = () => {
                     type="radio"
                     name="drink"
                     id={i.name}
-                    value={i.desc}
+                    value={i.name}
                     onChange={changeColor}
                   />
                 </div>

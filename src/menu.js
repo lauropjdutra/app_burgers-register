@@ -11,19 +11,19 @@ import Guarana from "./assets/guarana.jpg"
 const items = [
   {
     burger: {
-      chicken: {
+      frango: {
         price: 9.99,
         img: Frango,
         name: "Frango",
         desc: "Hambúrguer de frango",
       },
-      beef: {
+      carne: {
         price: 12.99,
         img: Carne,
         name: "Carne",
         desc: "Hambúrguer de carne",
       },
-      vegan: {
+      vegano: {
         price: 14.99,
         img: Vegano,
         name: "Vegano",
@@ -33,7 +33,7 @@ const items = [
   },
   {
     followUp: {
-      fries: {
+      fritas: {
         price: 4.99,
         img: Fritas,
         name: "Fritas",
@@ -45,7 +45,7 @@ const items = [
         name: "Nuggets",
         desc: "Porção de nuggets",
       },
-      rings: {
+      anéis: {
         price: 10.99,
         img: Rings,
         name: "Anéis",
@@ -55,19 +55,19 @@ const items = [
   },
   {
     drink: {
-      juice: {
+      suco: {
         price: 2.99,
         img: Suco,
         name: "Suco",
         desc: "Suco de laranja",
       },
-      coke: {
+      coca: {
         price: 5.99,
         img: CocaCola,
         name: "Coca",
         desc: "Coca-Cola",
       },
-      guarana: {
+      guaraná: {
         price: 5.99,
         img: Guarana,
         name: "Guaraná",
